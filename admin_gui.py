@@ -2,7 +2,7 @@ import json
 from tkinter import Label, Entry, Button, Listbox, StringVar, Toplevel, messagebox
 
 class TreeNode:
-    def _init_(self, data):
+    def __init__(self, data):
         self.data = data
         self.children = []
 
@@ -19,9 +19,9 @@ class TreeNode:
         return result
 
 class AdminWindow:
-    def _init_(self, root, return_to_login):
+    def __init__(self, root, return_to_login):
         self.root = root
-        self.root.geometry("500x600")
+        self.root.geometry("600x700")  # Ukuran jendela yang lebih besar
         self.root.title("Admin - Kelola Soal")
         self.return_to_login = return_to_login
 
@@ -36,31 +36,34 @@ class AdminWindow:
         self.kategori = StringVar()
 
         # GUI Input
-        Label(root, text="Kategori (Mudah/Sedang/Sulit)").pack()
+        Label(root, text="Kategori (Mudah/Sedang/Sulit)").pack(pady=5)
         Entry(root, textvariable=self.kategori).pack(pady=5)
-        Label(root, text="Pertanyaan").pack()
+        Label(root, text="Pertanyaan").pack(pady=5)
         Entry(root, textvariable=self.soal).pack(pady=5)
-        Label(root, text="Opsi A").pack()
+        Label(root, text="Opsi A").pack(pady=5)
         Entry(root, textvariable=self.opsi_a).pack(pady=5)
-        Label(root, text="Opsi B").pack()
+        Label(root, text="Opsi B").pack(pady=5)
         Entry(root, textvariable=self.opsi_b).pack(pady=5)
-        Label(root, text="Opsi C").pack()
+        Label(root, text="Opsi C").pack(pady=5)
         Entry(root, textvariable=self.opsi_c).pack(pady=5)
-        Label(root, text="Opsi D").pack()
+        Label(root, text="Opsi D").pack(pady=5)
         Entry(root, textvariable=self.opsi_d).pack(pady=5)
-        Label(root, text="Jawaban Benar (A/B/C/D)").pack()
+        Label(root, text="Jawaban Benar (A/B/C/D)").pack(pady=5)
         Entry(root, textvariable=self.jawaban).pack(pady=5)
-        Label(root, text="Bobot Nilai").pack()
+        Label(root, text="Bobot Nilai").pack(pady=5)
         Entry(root, textvariable=self.bobot).pack(pady=5)
 
-        Button(root, text="Tambah Soal", command=self.tambah_soal).pack(pady=10)
-        Button(root, text="Tampilkan Semua Soal", command=self.tampilkan_soal).pack(pady=10)
-        Button(root, text="Hapus Soal", command=self.hapus_soal).pack(pady=10)
-        Button(root, text="Hapus Semua Soal", command=self.hapus_semua_soal).pack(pady=10)
-        Button(root, text="Kembali ke Login", command=self.kembali_ke_login).pack(pady=10)
+        Button(root, text="Tambah Soal", command=self.tambah_soal).pack(pady=5)
+        Button(root, text="Tampilkan Semua Soal", command=self.tampilkan_soal).pack(pady=5)
+        Button(root, text="Hapus Soal", command=self.hapus_soal).pack(pady=5)
+        Button(root, text="Hapus Semua Soal", command=self.hapus_semua_soal).pack(pady=5)
 
         # Bangun tree dari soal yang sudah ada di soal.json
         self.tree_root = self.load_questions()
+
+        # Tombol kembali ke login di bagian bawah
+        self.kembali_button = Button(root, text="Kembali ke Login", command=self.kembali_ke_login)
+        self.kembali_button.pack(side="bottom", pady=10)
 
     def build_tree(self):
         root = TreeNode("Kuis")
@@ -87,7 +90,7 @@ class AdminWindow:
 
         return tree_root
 
-    def save_questions(self, node, file="data/soal.json"):
+    def save_questions(self, node, file="D:/Coding/Ular/Tubes_Kel7/data/soal.json"):
         questions = []
 
         # Traverse TreeNode untuk mengumpulkan soal
@@ -199,5 +202,8 @@ class AdminWindow:
         traverse_and_remove(self.tree_root)
 
     def kembali_ke_login(self):
-        self.root.destroy()  # Tutup jendela Admin
-        self.return_to_login()  # Kembali ke login
+        # Menampilkan konfirmasi sebelum keluar
+        confirm = messagebox.askyesno("Konfirmasi", "Apakah Anda yakin ingin kembali ke halaman login?")
+        if confirm:
+            self.root.destroy()  # Tutup jendela Admin
+            self.return_to_login()  # Kembali ke login
