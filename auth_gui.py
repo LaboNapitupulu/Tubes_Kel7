@@ -4,7 +4,7 @@ from admin_gui import AdminWindow
 from murid_gui import MuridWindow
 
 class LoginWindow:
-    def _init_(self, root):
+    def __init__(self, root):
         self.root = root
         self.root.geometry("300x200")
 
@@ -53,3 +53,5 @@ class LoginWindow:
     def return_to_login(self):
         """Fungsi untuk kembali ke halaman login."""
         self.root.deiconify()  # Menampilkan kembali jendela login
+        self.username.set("")  # Kosongkan input username
+        self.password.set("")  # Kosongkan input password
